@@ -10,10 +10,10 @@ This main purpose of this project is to test JIRIAF by using [vk-cmd](https://gi
 
 
 # Used Docker images for testing
-| Test platform | vk-cmd           | J-process-exporter      |
-| :------------ | :--------------- | :---------------------- |
-| main          | vk-cmd:v20231113 | process-exporter:v1.0.0 |
-| test-ersap-wf | vk-cmd:v20231113 | process-exporter:v1.0.0 |
+| Test platform                | vk-cmd           | J-process-exporter      |
+| :--------------------------- | :--------------- | :---------------------- |
+| main                         | vk-cmd:v20231113 | process-exporter:v1.0.0 |
+| test-ersap-wf (same as main) | vk-cmd:v20231113 | process-exporter:v1.0.0 |
 
 
 # Grafana setting for ERSAP wf:
