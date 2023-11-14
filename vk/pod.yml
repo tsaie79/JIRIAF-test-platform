@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
 #set name as the JOBNAME
-  name: job
+  name: ersap1
 spec:
   containers:
   - name: test-shell
@@ -16,7 +16,7 @@ spec:
       - "&&"
       - "(ssh -NfR 1234:localhost:1234 jeng-yuantsai@72.84.73.170)"
       - "&&"
-      - "(export PROCESS_EXPORTER_PORT=1911 && sleep 30 && shifter --image=jlabtsai/process-exporter:v1.0.0 -V /proc:/host_proc --entrypoint &)"
+      - "(export PROCESS_EXPORTER_PORT=1911 && sleep 10 && shifter --image=jlabtsai/process-exporter:v1.0.0 -V /proc:/host_proc --entrypoint &)"
       - "&&"
       - "(export PROCESS_EXPORTER_PORT=1911 && export PROM_SERVER=jeng-yuantsai@72.84.73.170 && ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER)"
 
@@ -33,7 +33,11 @@ spec:
 # dont use control-plane node
   nodeSelector:
     kubernetes.io/role: agent
+    kubernetes.io/hostname: vk-ersap1
   tolerations:
   - key: "virtual-kubelet.io/provider"
     value: "mock"
     effect: "NoSchedule"
+
+# --- the second ersap pod at the below --- #
+# ---
