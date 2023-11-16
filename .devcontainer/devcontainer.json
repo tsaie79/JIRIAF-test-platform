@@ -26,6 +26,7 @@
 	
 	"mounts": [
 		"source=${localEnv:HOME}/.kube,target=/home/vscode/.kube,type=bind,consistency=cached",
+		"source=${localEnv:HOME}/JIRIAF/prom-data,target=/home/vscode/.prom-data,type=bind,consistency=cached",
 	],
 
 
