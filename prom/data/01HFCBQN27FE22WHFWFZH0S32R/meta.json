@@ -1,0 +1,17 @@
+{
+	"ulid": "01HFCBQN27FE22WHFWFZH0S32R",
+	"minTime": 1700085600055,
+	"maxTime": 1700092800000,
+	"stats": {
+		"numSamples": 118403,
+		"numSeries": 4084,
+		"numChunks": 4084
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HFCBQN27FE22WHFWFZH0S32R"
+		]
+	},
+	"version": 1
+}
