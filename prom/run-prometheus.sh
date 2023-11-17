@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker run \
+docker run -d \
     --net=host \
     --user "$(id -u)" \
     -v /workspaces/JIRIAF-test-platform/prom:/prometheus \
