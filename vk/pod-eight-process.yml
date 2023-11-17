@@ -47,7 +47,7 @@ spec:
 # dont use control-plane node
   nodeSelector:
     kubernetes.io/role: agent
-    kubernetes.io/hostname: vk-ersap2
+    kubernetes.io/hostname: vk-ersap1
   tolerations:
   - key: "virtual-kubelet.io/provider"
     value: "mock"
