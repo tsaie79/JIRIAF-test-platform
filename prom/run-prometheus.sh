@@ -1,3 +1,5 @@
+#!/bin/bash
+
 docker run -d  \
     --net=host \
     --user "$(id -u)" \
