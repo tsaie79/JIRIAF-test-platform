@@ -16,4 +16,4 @@ ssh -NfL 33469:localhost:33469 mylin
 
 sh $HOME/docker_img/build-pipe.sh&
 
-shifter --image=docker:jlabtsai/vk-cmd:v20231113 --entrypoint
+shifter --image=docker:jlabtsai/vk-cmd:v20231122 --entrypoint
