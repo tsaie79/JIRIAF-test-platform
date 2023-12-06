@@ -16,8 +16,8 @@ metadata:
 data:
   prom.sh: |
     #!/bin/bash
-    ssh -NfR 1234:localhost:2221 $PROM_SERVER 
     sleep 10
+    ssh -NfR 1234:localhost:2221 $PROM_SERVER 
     shifter --image=jlabtsai/process-exporter:pgid -V /proc:/host_proc --entrypoint
     ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
 
@@ -73,7 +73,7 @@ spec:
       env:
         - name: fifo
           value: "false"
-        - name: PGID
+        - name: PGID_FILE
           value: ~/ersap/prom/pgid/wf.pgid
         - name: PROCESS_EXPORTER_PORT
           value: "1911"
