@@ -1,0 +1,117 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: wf
+  namespace: default
+data:
+  wf.sh: |
+    #!/bin/bash
+    shifter --image=docker:gurjyan/ersap:v0.4 --entrypoint
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prom
+  namespace: default
+data:
+  prom.sh: |
+    #!/bin/bash
+    ssh -NfR 1234:localhost:2221 jeng-yuantsai@72.84.73.170
+    sleep 10
+    shifter --image=jlabtsai/process-exporter:pgid -V /proc:/host_proc --entrypoint
+    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: pgid-wf
+  namespace: default
+data:
+  wf.pgid: |
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: pgid-prom
+  namespace: default
+data:
+  prom.pgid: |
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ersap
+spec:
+  containers:
+    - name: wf
+      image: wf
+      command: ["/bin/bash", "-c"]
+      args: ["bash ~/ersap/wf/wf.sh >> ~/ersap/wf/stdout 2>> ~/ersap/wf/stderr"]
+      env:
+        - name: fifo
+          value: "false"
+
+      volumeMounts:
+        - name: wf
+          mountPath: ~/ersap/wf
+        - name: pgid-wf
+          mountPath: ~/ersap/wf/pgid
+
+      resources:
+        limits:
+          cpu: "64"
+          memory: 512Gi
+
+    - name: prom
+      image: prom
+      command: ["/bin/bash", "-c"]
+      args: ["bash ~/ersap/prom/prom.sh >> ~/ersap/prom/stdout 2>> ~/ersap/prom/stderr"]
+      env:
+        - name: fifo
+          value: "false"
+        - name: PGID
+          value: ~/ersap/prom/pgid/wf.pgid
+        - name: PROCESS_EXPORTER_PORT
+          value: "1911"
+        - name: PROM_SERVER
+          value: jeng-yuantsai@72.84.73.170
+
+      volumeMounts:
+        - name: prom
+          mountPath: ~/ersap/prom
+        - name: pgid-prom
+          mountPath: ~/ersap/prom/pgid
+
+      resources:
+        limits:
+          cpu: "64"
+          memory: 512Gi
+
+
+  volumes:
+    - name: wf 
+      configMap:
+        name: wf
+    - name: prom
+      configMap:
+        name: prom
+    - name: pgid-wf
+      configMap:
+        name: pgid-wf
+    - name: pgid-prom
+      configMap:
+        name: pgid-prom
+        
+  nodeSelector:
+    kubernetes.io/role: agent
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+
+
+---
