@@ -1,15 +1,15 @@
-This branch is still under development
+This branch is still under testing.
 
-# Used branches for testing
+# Branches used for testing
 
 | Test platform | vk-cmd        | J-process-exporter |
 | :------------ | :------------ | :----------------- |
-| test-ersap-wf_add-volume | add-volume | main               |
+| test-ersap-wf_add-volume | no-vk-container |  pgid              |
 
 
 
 
-# Used Docker images for testing
+# Docker images used for testing
 | Test platform | vk-cmd           | J-process-exporter    |
 | :------------ | :--------------- | :-------------------- |
-| test-ersap-wf_add-volume | vk-cmd:v20231122 | process-exporter:v1.0.0 |
+| test-ersap-wf_add-volume | no-vk-container | pgid |
