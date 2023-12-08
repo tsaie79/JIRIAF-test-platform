@@ -1,0 +1,115 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: wf
+  namespace: default
+data:
+  wf.sh: |
+    #!/bin/bash
+    echo $HOME
+    # shifter --image=docker:gurjyan/ersap:v0.4 --entrypoint
+    shifter --image=docker:gurjyan/ersap:v0.4 -- /bin/bash /ersap/run-pipeline-4.sh
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prom
+  namespace: default
+data:
+  prom.sh: |
+    #!/bin/bash
+    sleep 10
+    
+    for i in {2221..2224}
+    do
+      ssh -NfR $i:localhost:$i $PROM_SERVER
+    done
+
+    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ersap
+spec:
+  containers:
+    - name: wf
+      image: wf
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdrir/wf.sh >> $workdrir/stdout 2>> $workdrir/stderr"]
+      env:
+        - name: workdrir
+          value: ~/ersap/run/wf
+        - name: HOME
+          value: $HOME
+
+      volumeMounts:
+        - name: wf
+          mountPath: ~/ersap/run/wf
+        - name: pgid-wf
+          mountPath: ~/ersap/run/wf/pgid
+
+      resources:
+        limits:
+          cpu: "32"
+          memory: 128Gi
+
+    - name: prom
+      image: prom
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdir/prom.sh >> $workdir/stdout 2>> $workdir/stderr"]
+      env:
+        - name: workdir
+          value: ~/ersap/run/prom
+        - name: PGID_FILE
+          value: ~/ersap/run/wf/pgid/wf.pgid
+        - name: PROCESS_EXPORTER_PORT
+          value: "1776"
+        - name: PROM_SERVER
+          value: jeng-yuantsai@72.84.73.170
+
+        - name: CMDS_FOR_CONFIG
+          value: "stress-ng-cpu"
+        - name: GROUP_FOR_CONFIG
+          value: "{{.ExeBase}}:{{.Username}}:{{.PID}}"
+
+
+        - name: HOME
+          value: $HOME
+
+      volumeMounts:
+        - name: prom
+          mountPath: ~/ersap/run/prom
+        - name: pgid-prom
+          mountPath: ~/ersap/run/prom/pgid
+
+      resources:
+        limits:
+          cpu: "32"
+          memory: 128Gi
+
+
+  volumes:
+    - name: wf 
+      configMap:
+        name: wf
+    - name: prom
+      configMap:
+        name: prom
+    - name: pgid-wf
+      emptyDir: {}
+    - name: pgid-prom
+      emptyDir: {}
+        
+  nodeSelector:
+    kubernetes.io/role: agent
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+
+
+---
