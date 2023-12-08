@@ -1,0 +1,105 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: wf
+  namespace: default
+data:
+  wf.sh: |
+    #!/bin/bash
+    shifter --image="jlabtsai/stress:latest" --entrypoint
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prom
+  namespace: default
+data:
+  prom.sh: |
+    #!/bin/bash
+    sleep 5
+    # ssh -NfR 1234:localhost:2221 $PROM_SERVER 
+    shifter --image=jlabtsai/process-exporter:pgid -V /proc:/host_proc --entrypoint
+    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wf
+spec:
+  containers:
+    - name: wf
+      image: wf
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdir/wf.sh >> $workdir/stdout 2>>$workdir/stderr"]
+      env:
+        - name: NUMBER
+          value: "1"
+        - name: TIME
+          value: "60"
+        - name: workdir
+          value: "~/stress/wf"
+        
+
+      volumeMounts:
+        - name: wf
+          mountPath: ~/stress/wf
+        - name: pgid-wf
+          mountPath: ~/stress/wf/pgid
+
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+
+    - name: prom
+      image: prom
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdir/prom.sh >> $workdir/stdout 2>> $workdir/stderr"]
+      env:
+        - name: workdir
+          value: ~/stress/prom
+        - name: PGID_FILE
+          value: ~/stress/wf/pgid/wf.pgid
+        - name: PROCESS_EXPORTER_PORT
+          value: "1911"
+        - name: PROCESS_EXPORTER_CONFIG
+          value: ~/stress/prom/process-exporter.yml
+        - name: PROM_SERVER
+          value: jeng-yuantsai@72.84.73.170
+
+
+      volumeMounts:
+        - name: prom
+          mountPath: ~/stress/prom
+        - name: pgid-prom
+          mountPath: ~/stress/prom/pgid
+
+      resources:
+        limits:
+          cpu: "32"
+          memory: 128Gi
+
+
+  volumes:
+    - name: wf 
+      configMap:
+        name: wf
+    - name: prom
+      configMap:
+        name: prom
+    - name: pgid-wf
+      emptyDir: {}
+    - name: pgid-prom
+      emptyDir: {}
+        
+  nodeSelector:
+    kubernetes.io/role: agent
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+
+
+---
