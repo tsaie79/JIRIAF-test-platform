@@ -13,8 +13,10 @@ scrape_configs:
       # - targets: ['localhost:1776', 'localhost:1777']
       - targets: ['localhost:1911']
 
+      # - targets: ['localhost:1776']
+
   - job_name: 'ersap'
     static_configs:
     # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
-    - targets: ['localhost:1234']
+    # - targets: ['localhost:1234']
     # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224']
