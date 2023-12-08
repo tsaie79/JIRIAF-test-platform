@@ -9,7 +9,6 @@ scrape_configs:
 
   # add process exporter
   - job_name: 'process_exporter'
-
     static_configs:
       # - targets: ['localhost:1776', 'localhost:1777']
       - targets: ['localhost:1911']
