@@ -59,6 +59,8 @@ spec:
           value: ~/run-ersap/ersap/wf/pgid/wf.pgid
         - name: PROCESS_EXPORTER_PORT
           value: "1911"
+        - name: PROCESS_EXPORTER_CONFIG
+          value: ~/stress/prom/process-exporter.yml
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
 
