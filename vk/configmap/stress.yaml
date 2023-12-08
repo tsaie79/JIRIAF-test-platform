@@ -18,15 +18,15 @@ data:
     #!/bin/bash
     sleep 5
     # ssh -NfR 1234:localhost:2221 $PROM_SERVER 
-    shifter --image=jlabtsai/process-exporter:pgid -V /proc:/host_proc --entrypoint
-    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
+    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
 
 ---
 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: wf
+  name: stress
 spec:
   containers:
     - name: wf
@@ -35,11 +35,13 @@ spec:
       args: ["bash $workdir/wf.sh >> $workdir/stdout 2>>$workdir/stderr"]
       env:
         - name: NUMBER
-          value: "1"
+          value: "4"
         - name: TIME
-          value: "60"
+          value: "100"
         - name: workdir
           value: "~/stress/wf"
+        - name: HOME
+          value: $HOME
         
 
       volumeMounts:
@@ -64,11 +66,16 @@ spec:
           value: ~/stress/wf/pgid/wf.pgid
         - name: PROCESS_EXPORTER_PORT
           value: "1911"
-        - name: PROCESS_EXPORTER_CONFIG
-          value: ~/stress/prom/process-exporter.yml
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
 
+        - name: CMDS_FOR_CONFIG
+          value: "stress-ng-cpu"
+        - name: GROUP_FOR_CONFIG
+          value: "{{.ExeBase}}:{{.Username}}:{{.PID}}"
+          
+        - name: HOME
+          value: $HOME
 
       volumeMounts:
         - name: prom
