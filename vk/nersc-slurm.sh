@@ -2,18 +2,21 @@
 #SBATCH -N 1
 #SBATCH -C cpu
 #SBATCH -q debug
-#SBATCH -J ersap1
+#SBATCH -J ersap
 #SBATCH -t 00:30:00
 
 #run the application:
 
 
 
-export NODENAME="vk-ersap1"
+export NODENAME="vk-nersc"
 export KUBECONFIG="/global/homes/j/jlabtsai/run-vk/kubeconfig/mylin"
+
 
 ssh -NfL 33469:localhost:33469 mylin
 
-sh $HOME/docker_img/build-pipe.sh&
+shifter --image=docker:jlabtsai/vk-cmd:no-vk-container -- /bin/bash -c "cp -r /vk-cmd `pwd`"
 
-shifter --image=docker:jlabtsai/vk-cmd:v20231122 --entrypoint
+cd `pwd`/vk-cmd
+
+./start.sh $KUBECONFIG $NODENAME
