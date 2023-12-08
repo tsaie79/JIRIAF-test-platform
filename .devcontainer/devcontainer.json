@@ -14,7 +14,8 @@
 		"vscode": {
 			"extensions": [
 				"GitHub.copilot",
-				"doggy8088.k8s-snippets"
+				"doggy8088.k8s-snippets",
+				"mhutchie.git-graph"
 			]
 		}
 	},
