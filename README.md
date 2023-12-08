@@ -12,4 +12,4 @@ This branch is still under testing.
 # Docker images used for testing
 | Test platform | vk-cmd           | J-process-exporter    |
 | :------------ | :--------------- | :-------------------- |
-| test-ersap-wf-horizontal-scaling  | no-vk-container | pgid |
+| test-ersap-wf-horizontal-scaling  | no-vk-container | pgid-go |
