@@ -8,15 +8,96 @@ scrape_configs:
       - targets: ['localhost:9090']
 
   # add process exporter
-  - job_name: 'process_exporter'
+  - job_name: 'process_exporter-2'
     static_configs:
       # - targets: ['localhost:1776', 'localhost:1777']
-      - targets: ['localhost:1911']
+      # - targets: ['localhost:1911']
 
-      # - targets: ['localhost:1776']
+      - targets: ['localhost:1776']
 
-  - job_name: 'ersap'
+
+  - job_name: 'process_exporter-3'
+    static_configs:
+      # - targets: ['localhost:1776', 'localhost:1777']
+      # - targets: ['localhost:1911']
+
+      - targets: ['localhost:2776']
+
+  - job_name: 'process_exporter-4'
+    static_configs:
+      # - targets: ['localhost:1776', 'localhost:1777']
+      # - targets: ['localhost:1911']
+
+      - targets: ['localhost:3776']
+
+  - job_name: 'process_exporter-5'
+    static_configs:
+      # - targets: ['localhost:1776', 'localhost:1777']
+      # - targets: ['localhost:1911']
+
+      - targets: ['localhost:4776']
+
+  - job_name: 'process_exporter-6'
+    static_configs:
+      # - targets: ['localhost:1776', 'localhost:1777']
+      # - targets: ['localhost:1911']
+
+      - targets: ['localhost:5776']
+
+  - job_name: 'process_exporter-7'
+    static_configs:
+      # - targets: ['localhost:1776', 'localhost:1777']
+      # - targets: ['localhost:1911']
+
+      - targets: ['localhost:6776']
+
+  - job_name: 'process_exporter-8'
+
+    static_configs:
+      # - targets: ['localhost:1776', 'localhost:1777']
+      # - targets: ['localhost:1911']
+
+      - targets: ['localhost:7776']
+
+
+  - job_name: 'ersap-2'
     static_configs:
     # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
     # - targets: ['localhost:1234']
-    # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224']
+    - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224']
+
+  - job_name: 'ersap-3'
+    static_configs:
+    # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
+    # - targets: ['localhost:1234']
+    - targets: ['localhost:3221', 'localhost:3222', 'localhost:3223', 'localhost:3224']
+
+  - job_name: 'ersap-4'
+    static_configs:
+    # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
+    # - targets: ['localhost:1234']
+    - targets: ['localhost:4221', 'localhost:4222', 'localhost:4223', 'localhost:4224']
+
+  - job_name: 'ersap-5'
+    static_configs:
+    # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
+    # - targets: ['localhost:1234']
+    - targets: ['localhost:5221', 'localhost:5222', 'localhost:5223', 'localhost:5224']
+
+  - job_name: 'ersap-6'
+    static_configs:
+    # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
+    # - targets: ['localhost:1234']
+    - targets: ['localhost:6221', 'localhost:6222', 'localhost:6223', 'localhost:6224']
+
+  - job_name: 'ersap-7'
+    static_configs:
+    # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
+    # - targets: ['localhost:1234']
+    - targets: ['localhost:7221', 'localhost:7222', 'localhost:7223', 'localhost:7224'] 
+
+  - job_name: 'ersap-8'
+    static_configs:
+    # - targets: ['localhost:2221', 'localhost:2222', 'localhost:2223', 'localhost:2224', 'localhost:2225','localhost:2226','localhost:2227','localhost:2228'] 
+    # - targets: ['localhost:1234']
+    - targets: ['localhost:8221', 'localhost:8222', 'localhost:8223', 'localhost:8224']
