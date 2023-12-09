@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: wf
+  name: wf-node3
   namespace: default
 data:
   wf.sh: |
@@ -13,18 +13,19 @@ data:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: prom
+  name: prom-node3
   namespace: default
 data:
   prom.sh: |
     #!/bin/bash
     sleep 10
     
-    for i in {2221..2224}
+    for i in {3221..3224}
     do
       ssh -NfR $i:localhost:$i $PROM_SERVER
     done
 
+    export PROCESS_EXPORTER_PORT="2776"
     ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
 
@@ -42,15 +43,15 @@ spec:
       args: ["bash $workdrir/wf.sh >> $workdrir/stdout 2>> $workdrir/stderr"]
       env:
         - name: workdrir
-          value: ~/ersap/run/wf
+          value: ~/ersap/run/wf-node3
         - name: HOME
           value: $HOME
 
       volumeMounts:
         - name: wf
-          mountPath: ~/ersap/run/wf
+          mountPath: ~/ersap/run/wf-node3
         - name: pgid-wf
-          mountPath: ~/ersap/run/wf/pgid
+          mountPath: ~/ersap/run/wf-node3/pgid
 
       resources:
         limits:
@@ -63,28 +64,26 @@ spec:
       args: ["bash $workdir/prom.sh >> $workdir/stdout 2>> $workdir/stderr"]
       env:
         - name: workdir
-          value: ~/ersap/run/prom
+          value: ~/ersap/run/prom-node3
         - name: PGID_FILE
-          value: ~/ersap/run/wf/pgid/wf.pgid
-        - name: PROCESS_EXPORTER_PORT
-          value: "1776"
+          value: ~/ersap/run/wf-node3/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
 
-        - name: CMDS_FOR_CONFIG
-          value: "stress-ng-cpu"
-        - name: GROUP_FOR_CONFIG
-          value: "{{.ExeBase}}:{{.Username}}:{{.PID}}"
+        # - name: CMDS_FOR_CONFIG
+        #   value: "stress-ng-cpu"
+        # - name: GROUP_FOR_CONFIG
+        #   value: "{{.ExeBase}}:{{.Username}}:{{.PID}}"
 
 
         - name: HOME
           value: $HOME
 
       volumeMounts:
-        - name: prom
-          mountPath: ~/ersap/run/prom
+        - name: prom-node3
+          mountPath: ~/ersap/run/prom-node3
         - name: pgid-prom
-          mountPath: ~/ersap/run/prom/pgid
+          mountPath: ~/ersap/run/prom-node3/pgid
 
       resources:
         limits:
@@ -93,10 +92,10 @@ spec:
 
 
   volumes:
-    - name: wf 
+    - name: wf-node3
       configMap:
         name: wf
-    - name: prom
+    - name: prom-node3
       configMap:
         name: prom
     - name: pgid-wf
