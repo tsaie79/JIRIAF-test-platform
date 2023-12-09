@@ -1,0 +1,16 @@
+# This is related qlaunch -c my_qadapter.yaml rapidfire -m 1
+
+_fw_name: CommonAdapter
+_fw_q_type: SLURM
+rocket_launch: rlaunch -c /global/u2/j/jlabtsai/opt/fireworks singleshot
+nodes: 8
+walltime: 00:30:00
+qos: debug
+constraint: cpu
+account: null
+job_name: 8node
+logdir: /global/homes/j/jlabtsai/opt/fireworks/log
+pre_rocket: |
+  conda activate fireworks
+  ssh -NfL 27017:localhost:27017 mylin
+post_rocket: null
