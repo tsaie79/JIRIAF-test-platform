@@ -7,39 +7,45 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'process_exporter-1'
+  - job_name: 'ersap-test-process-exporter'
+    static_configs:
+      - targets: ['localhost:12345']
+
+  - job_name: 'ersap-1-process-exporter'
     static_configs:
       - targets: ['localhost:1776'] 
 
-  - job_name: 'process_exporter-2'
+  - job_name: 'ersap-2-process-exporter'
     static_configs:
       - targets: ['localhost:2776']
 
-
-  - job_name: 'process_exporter-3'
+  - job_name: 'ersap-3-process-exporter'
     static_configs:
       - targets: ['localhost:3776']
 
-  - job_name: 'process_exporter-4'
+  - job_name: 'ersap-4-process-exporter'
     static_configs:
       - targets: ['localhost:4776']
 
-  - job_name: 'process_exporter-5'
+  - job_name: 'ersap-5-process-exporter'
     static_configs:
       - targets: ['localhost:5776']
 
-  - job_name: 'process_exporter-6'
+  - job_name: 'ersap-6-process-exporter'
     static_configs:
       - targets: ['localhost:6776']
 
-  - job_name: 'process_exporter-7'
+  - job_name: 'ersap-7-process-exporter'
     static_configs:
       - targets: ['localhost:7776']
 
-  - job_name: 'process_exporter-8'
+  - job_name: 'ersap-8-process-exporter'
     static_configs:
       - targets: ['localhost:8776']
 
+  - job_name: 'ersap-test'
+    static_configs:
+      - targets: ['localhost:12221', 'localhost:12222', 'localhost:12223', 'localhost:12224']
 
   - job_name: 'ersap-1'
     static_configs:
