@@ -9,6 +9,50 @@ data:
     echo $HOME
     # shifter --image=docker:gurjyan/ersap:v0.4 --entrypoint
     shifter --image=docker:gurjyan/ersap:v0.4 -- /bin/bash /ersap/run-pipeline-4.sh
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prom-node1
+  namespace: default
+data:
+  prom.sh: |
+    #!/bin/bash
+    sleep 10
+    
+    for i in {2221..2224}
+    do
+      j=$((i + 0))
+      ssh -NfR $j:localhost:$i $PROM_SERVER
+    done
+
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 1776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
+
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prom-node2
+  namespace: default
+data:
+  prom.sh: |
+    #!/bin/bash
+    sleep 10
+    
+    for i in {2221..2224}
+    do
+      j=$((i + 100))
+      ssh -NfR $j:localhost:$i $PROM_SERVER
+    done
+
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 2776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
+
 ---
 kind: ConfigMap
 apiVersion: v1
@@ -20,14 +64,14 @@ data:
     #!/bin/bash
     sleep 10
     
-    for i in {3221..3224}
+    for i in {2221..2224}
     do
-      j=$((i - 1000))
-      ssh -NfR $i:localhost:$j $PROM_SERVER
+      j=$((i + 200))
+      ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
-    export PROCESS_EXPORTER_PORT="2776"
-    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 3776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
 
 
@@ -42,14 +86,14 @@ data:
     #!/bin/bash
     sleep 10
     
-    for i in {4221..4224}
+    for i in {2221..2224}
     do
-      j=$((i - 2000))
-      ssh -NfR $i:localhost:$j $PROM_SERVER
+      j=$((i + 300)
+      ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
-    export PROCESS_EXPORTER_PORT="3776"
-    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 4776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
 
 ---
@@ -63,14 +107,14 @@ data:
     #!/bin/bash
     sleep 10
     
-    for i in {5221..5224}
+    for i in {2221..2224}
     do
-      j=$((i - 3000))
-      ssh -NfR $i:localhost:$j $PROM_SERVER
+      j=$((i + 400))
+      ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
-    export PROCESS_EXPORTER_PORT="4776"
-    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 5776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
 
 ---
@@ -84,14 +128,14 @@ data:
     #!/bin/bash
     sleep 10
     
-    for i in {6221..6224}
+    for i in {2221..2224}
     do
-      j=$((i - 4000))
-      ssh -NfR $i:localhost:$j $PROM_SERVER
+      j=$((i + 500))
+      ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
-    export PROCESS_EXPORTER_PORT="5776"
-    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 6776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
 
 ---
@@ -105,14 +149,14 @@ data:
     #!/bin/bash
     sleep 10
     
-    for i in {7221..7224}
+    for i in {2221..2224}
     do
-      j=$((i - 5000))
-      ssh -NfR $i:localhost:$j $PROM_SERVER
+      j=$((i + 600))
+      ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
-    export PROCESS_EXPORTER_PORT="6776"
-    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 7776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
 
 
@@ -127,12 +171,12 @@ data:
     #!/bin/bash
     sleep 10
     
-    for i in {8221..8224}
+    for i in {2221..2224}
     do
-      j=$((i - 6000))
-      ssh -NfR $i:localhost:$j $PROM_SERVER
+      j=$((i + 700))
+      ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
-    export PROCESS_EXPORTER_PORT="7776"
-    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
+    export PROCESS_EXPORTER_PORT="1776"
+    ssh -NfR 8776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
