@@ -11,19 +11,19 @@ def ersap_fw(nnode):
     task1 = ScriptTask.from_str(vk_string)
     
     fw = Firework([task1], name=fw_name)
-    fw.spec["_category"] = fw_name
+    fw.spec["_category"] = "ersap-node1"
     fw.spec["_queueadapter"] = {"job_name": fw_name, "walltime": "00:30:00",
-                                "qos": "debug", "nodes": nnode}
+                                "qos": "debug", "nodes": 1}
     return fw
 
 
 def main():
-    nnode = 8
-    fw = ersap_fw(nnode)
-    wf = Workflow([fw], {fw: []})
-    wf.name = f"ersap-node{nnode}"
-    print(wf.as_dict())
-    LPAD.add_wf(wf)
+    for nnode in range(1, 9):
+        fw = ersap_fw(nnode)
+        wf = Workflow([fw], {fw: []})
+        wf.name = f"ersap-node{nnode}"
+        print(wf.as_dict())
+        LPAD.add_wf(wf)
 
 if __name__ == "__main__":
     main()
