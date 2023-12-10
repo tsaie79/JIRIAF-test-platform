@@ -1,3 +1,157 @@
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ersap-node1
+spec:
+  containers:
+    - name: wf
+      image: wf
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdir/wf.sh >> $workdir/stdout 2>> $workdir/stderr"]
+      env:
+        - name: workdir
+          value: ~/ersap/run/wf-node1
+        - name: HOME
+          value: $HOME
+
+      volumeMounts:
+        - name: wf
+          mountPath: ~/ersap/run/wf-node1
+        - name: pgid-wf
+          mountPath: ~/ersap/run/wf-node1/pgid
+
+      resources:
+        limits:
+          cpu: "32"
+          memory: 128Gi
+
+    - name: prom
+      image: prom
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdir/prom.sh >> $workdir/stdout 2>> $workdir/stderr"]
+      env:
+        - name: workdir
+          value: ~/ersap/run/prom-node1
+        - name: PGID_FILE
+          value: ~/ersap/run/wf-node1/pgid/wf.pgid
+        - name: PROM_SERVER
+          value: jeng-yuantsai@72.84.73.170
+        - name: HOME
+          value: $HOME
+
+      volumeMounts:
+        - name: prom
+          mountPath: ~/ersap/run/prom-node1
+        - name: pgid-prom
+          mountPath: ~/ersap/run/prom-node1/pgid
+
+      resources:
+        limits:
+          cpu: "32"
+          memory: 128Gi
+
+
+  volumes:
+    - name: wf
+      configMap:
+        name: wf
+    - name: prom
+      configMap:
+        name: prom-node1
+    - name: pgid-wf
+      emptyDir: {}
+    - name: pgid-prom
+      emptyDir: {}
+        
+  nodeSelector:
+    kubernetes.io/role: agent
+    kubernetes.io/hostname: ersap-node1
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ersap-node2
+spec:
+  containers:
+    - name: wf
+      image: wf
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdir/wf.sh >> $workdir/stdout 2>> $workdir/stderr"]
+      env:
+        - name: workdir
+          value: ~/ersap/run/wf-node2
+        - name: HOME
+          value: $HOME
+
+      volumeMounts:
+        - name: wf
+          mountPath: ~/ersap/run/wf-node2
+        - name: pgid-wf
+          mountPath: ~/ersap/run/wf-node2/pgid
+
+      resources:
+        limits:
+          cpu: "32"
+          memory: 128Gi
+
+    - name: prom
+      image: prom
+      command: ["/bin/bash", "-c"]
+      args: ["bash $workdir/prom.sh >> $workdir/stdout 2>> $workdir/stderr"]
+      env:
+        - name: workdir
+          value: ~/ersap/run/prom-node2
+        - name: PGID_FILE
+          value: ~/ersap/run/wf-node2/pgid/wf.pgid
+        - name: PROM_SERVER
+          value: jeng-yuantsai@72.84.73.170
+        - name: HOME
+          value: $HOME
+
+      volumeMounts:
+        - name: prom
+          mountPath: ~/ersap/run/prom-node2
+        - name: pgid-prom
+          mountPath: ~/ersap/run/prom-node2/pgid
+
+      resources:
+        limits:
+          cpu: "32"
+          memory: 128Gi
+
+
+  volumes:
+    - name: wf
+      configMap:
+        name: wf
+    - name: prom
+      configMap:
+        name: prom-node2
+    - name: pgid-wf
+      emptyDir: {}
+    - name: pgid-prom
+      emptyDir: {}
+        
+  nodeSelector:
+    kubernetes.io/role: agent
+    kubernetes.io/hostname: ersap-node2
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+
+
+---
+
 apiVersion: v1
 kind: Pod
 metadata:
