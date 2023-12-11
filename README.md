@@ -7,7 +7,7 @@ This main purpose of this project is to test JIRIAF by using [vk-cmd](https://gi
 | :------------ | :------------ | :----------------- |
 | main          | custom-config | main               |
 | test-ersap-wf | custom-config | main               |
-| test-ersap-wf_add-volume (not-ready) | add-volume | main               |
+|test-ersap-wf-horizontal-scaling	| no-vk-container | pgid        |
 
 
 
@@ -17,7 +17,7 @@ This main purpose of this project is to test JIRIAF by using [vk-cmd](https://gi
 | :------------ | :--------------- | :-------------------- |
 | main          | vk-cmd:v20231113 | process-exporter:v1.0.0 |
 | test-ersap-wf | vk-cmd:v20231113 | process-exporter:v1.0.0 |
-| test-ersap-wf_add-volume (not-ready) | vk-cmd:v20231122 | process-exporter:v1.0.0 |
+| test-ersap-wf-horizontal-scaling	 | no-vk-container| pgid-go |
 
 # Grafana setting for ERSAP wf:
 - The volume mount path in the dev container is`/workspaces/JIRIAF-test-platform/prom/grafana-data`.
