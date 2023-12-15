@@ -13,7 +13,7 @@ def ersap_fw(nnode):
     fw = Firework([task1], name=fw_name)
     fw.spec["_category"] = "ersap-node1"
     fw.spec["_queueadapter"] = {"job_name": fw_name, "walltime": "00:30:00",
-                                "qos": "debug", "nodes": 1}
+                                "qos": "preempt", "nodes": 1}
     return fw
 
 
