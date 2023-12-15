@@ -13,7 +13,9 @@ def ersap_fw(nnode):
     fw = Firework([task1], name=fw_name)
     fw.spec["_category"] = "ersap-node1"
     fw.spec["_queueadapter"] = {"job_name": fw_name, "walltime": "00:30:00",
-                                "qos": "preempt", "nodes": 1}
+                                "qos": "debug_preempt", "nodes": 1}
+    # preempt has min walltime of 2 hours (can get stop after 2 hours)
+    # debug_preempt has max walltime of 30 minutes (can get stop after 5 minutes)
     return fw
 
 
