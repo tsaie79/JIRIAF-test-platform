@@ -88,7 +88,7 @@ data:
     
     for i in {2221..2224}
     do
-      j=$((i + 300)
+      j=$((i + 300))
       ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
