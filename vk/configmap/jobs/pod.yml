@@ -13,6 +13,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node1
+        - name: SLEEP
+          value: "0"
         - name: HOME
           value: $HOME
 
@@ -38,6 +40,12 @@ spec:
           value: ~/ersap/run/wf-node1/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "8"
+        - name: PROM_PORT_OFFSET
+          value: "0"
+        - name: PROCESS_EXPORTER_PORT
+          value: "1776"
         - name: HOME
           value: $HOME
 
@@ -59,7 +67,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node1
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
@@ -89,6 +97,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node2
+        - name: SLEEP
+          value: "120"
         - name: HOME
           value: $HOME
 
@@ -114,6 +124,12 @@ spec:
           value: ~/ersap/run/wf-node2/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "128"
+        - name: PROM_PORT_OFFSET
+          value: "100"
+        - name: PROCESS_EXPORTER_PORT
+          value: "2776"
         - name: HOME
           value: $HOME
 
@@ -135,7 +151,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node2
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
@@ -165,6 +181,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node3
+        - name: SLEEP
+          value: "240"
         - name: HOME
           value: $HOME
 
@@ -190,6 +208,12 @@ spec:
           value: ~/ersap/run/wf-node3/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "248"
+        - name: PROM_PORT_OFFSET 
+          value: "200"
+        - name: PROCESS_EXPORTER_PORT
+          value: "3776"
         - name: HOME
           value: $HOME
 
@@ -211,7 +235,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node3
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
@@ -241,6 +265,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node4
+        - name: SLEEP
+          value: "360"
         - name: HOME
           value: $HOME
 
@@ -266,6 +292,12 @@ spec:
           value: ~/ersap/run/wf-node4/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "368"
+        - name: PROM_PORT_OFFSET
+          value: "300"
+        - name: PROCESS_EXPORTER_PORT
+          value: "4776"
         - name: HOME
           value: $HOME
 
@@ -286,7 +318,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node4
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
@@ -315,6 +347,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node5
+        - name: SLEEP
+          value: "480"
         - name: HOME
           value: $HOME
 
@@ -340,6 +374,12 @@ spec:
           value: ~/ersap/run/wf-node5/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "488"
+        - name: PROM_PORT_OFFSET
+          value: "400"
+        - name: PROCESS_EXPORTER_PORT
+          value: "5776"
         - name: HOME
           value: $HOME
 
@@ -360,7 +400,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node5
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
@@ -389,6 +429,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node6
+        - name: SLEEP
+          value: "600"
         - name: HOME
           value: $HOME
 
@@ -414,6 +456,12 @@ spec:
           value: ~/ersap/run/wf-node6/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "608"
+        - name: PROM_PORT_OFFSET
+          value: "500"
+        - name: PROCESS_EXPORTER_PORT
+          value: "6776"
         - name: HOME
           value: $HOME
 
@@ -434,7 +482,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node6
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
@@ -463,6 +511,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node7
+        - name: SLEEP
+          value: "720"
         - name: HOME
           value: $HOME
 
@@ -488,6 +538,12 @@ spec:
           value: ~/ersap/run/wf-node7/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "728"
+        - name: PROM_PORT_OFFSET
+          value: "600"
+        - name: PROCESS_EXPORTER_PORT
+          value: "7776"
         - name: HOME
           value: $HOME
 
@@ -508,7 +564,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node7
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
@@ -537,6 +593,8 @@ spec:
       env:
         - name: workdir
           value: ~/ersap/run/wf-node8
+        - name: SLEEP
+          value: "840"
         - name: HOME
           value: $HOME
 
@@ -562,6 +620,12 @@ spec:
           value: ~/ersap/run/wf-node8/pgid/wf.pgid
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
+        - name: SLEEP
+          value: "848"
+        - name: PROM_PORT_OFFSET
+          value: "700"
+        - name: PROCESS_EXPORTER_PORT
+          value: "8776"
         - name: HOME
           value: $HOME
 
@@ -582,7 +646,7 @@ spec:
         name: wf
     - name: prom
       configMap:
-        name: prom-node8
+        name: prom
     - name: pgid-wf
       emptyDir: {}
     - name: pgid-prom
