@@ -1,0 +1,727 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 26,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic-by-name"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "ms"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 21,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2321\"}",
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2322\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2323\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "C"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2324\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "D"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2221\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "E"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2222\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "F"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2223\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "G"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2224\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "H"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2421\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "I"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2422\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "J"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2423\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "K"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2424\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "L"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2521\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "M"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2522\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "N"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2523\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "O"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2524\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "P"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2621\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Q"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2622\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "R"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2623\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "S"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2624\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "T"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2721\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "U"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2722\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "V"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2723\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "W"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2724\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "X"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2821\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Y"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2822\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "Z"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2823\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "AC"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2824\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "AD"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s1pt{instance=\"localhost:2921\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "AE"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s2pt{instance=\"localhost:2922\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "AF"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s3pt{instance=\"localhost:2923\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "AG"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "ersap_s4pt{instance=\"localhost:2924\"}",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "AH"
+          }
+        ],
+        "title": "PTs",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisBorderShow": false,
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 21,
+          "x": 0,
+          "y": 8
+        },
+        "id": 1,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xTickLabelRotation": 0,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "10.2.0",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:1776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "H"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:2776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:3776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:4776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "C"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:5776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "D"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:6776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "E"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:7776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "F"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "b1999f77-0db6-4678-846a-c55d3cdd53c1"
+            },
+            "editorMode": "code",
+            "expr": "rate(namedprocess_namegroup_cpu_seconds_total{groupname=\"java:jlabtsai\", mode=\"user\", instance=\"localhost:8776\"}[$__rate_interval])*100",
+            "hide": false,
+            "instant": false,
+            "legendFormat": "__auto",
+            "range": true,
+            "refId": "G"
+          }
+        ],
+        "title": "CPU usage",
+        "type": "barchart"
+      }
+    ],
+    "refresh": "5s",
+    "schemaVersion": 38,
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "2023-11-15T17:58:57.474Z",
+      "to": "2023-11-15T19:34:36.902Z"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "ersap1-8",
+    "uid": "ersap1-8",
+    "version": 6,
+    "weekStart": ""
+  }
