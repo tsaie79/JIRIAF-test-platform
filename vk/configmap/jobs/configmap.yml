@@ -6,6 +6,7 @@ metadata:
 data:
   wf.sh: |
     #!/bin/bash
+    sleep $SLEEP
     echo $HOME
     # shifter --image=docker:gurjyan/ersap:v0.4 --entrypoint
     shifter --image=docker:gurjyan/ersap:v0.4 -- /bin/bash /ersap/run-pipeline-4.sh
@@ -14,169 +15,18 @@ data:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: prom-node1
+  name: prom
   namespace: default
 data:
   prom.sh: |
     #!/bin/bash
-    sleep 10
-    
+    sleep $SLEEP
+
     for i in {2221..2224}
     do
-      j=$((i + 0))
+      j=$((i + $PROM_PORT_OFFSET))
       ssh -NfR $j:localhost:$i $PROM_SERVER
     done
 
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 1776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
-    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
-
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: prom-node2
-  namespace: default
-data:
-  prom.sh: |
-    #!/bin/bash
-    sleep 10
-    
-    for i in {2221..2224}
-    do
-      j=$((i + 100))
-      ssh -NfR $j:localhost:$i $PROM_SERVER
-    done
-
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 2776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
-    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: prom-node3
-  namespace: default
-data:
-  prom.sh: |
-    #!/bin/bash
-    sleep 10
-    
-    for i in {2221..2224}
-    do
-      j=$((i + 200))
-      ssh -NfR $j:localhost:$i $PROM_SERVER
-    done
-
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 3776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER 
-    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
-
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: prom-node4
-  namespace: default
-data:
-  prom.sh: |
-    #!/bin/bash
-    sleep 10
-    
-    for i in {2221..2224}
-    do
-      j=$((i + 300))
-      ssh -NfR $j:localhost:$i $PROM_SERVER
-    done
-
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 4776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
-    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: prom-node5
-  namespace: default
-data:
-  prom.sh: |
-    #!/bin/bash
-    sleep 10
-    
-    for i in {2221..2224}
-    do
-      j=$((i + 400))
-      ssh -NfR $j:localhost:$i $PROM_SERVER
-    done
-
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 5776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
-    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: prom-node6
-  namespace: default
-data:
-  prom.sh: |
-    #!/bin/bash
-    sleep 10
-    
-    for i in {2221..2224}
-    do
-      j=$((i + 500))
-      ssh -NfR $j:localhost:$i $PROM_SERVER
-    done
-
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 6776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
-    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: prom-node7
-  namespace: default
-data:
-  prom.sh: |
-    #!/bin/bash
-    sleep 10
-    
-    for i in {2221..2224}
-    do
-      j=$((i + 600))
-      ssh -NfR $j:localhost:$i $PROM_SERVER
-    done
-
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 7776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
-    shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
-
-
----
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: prom-node8
-  namespace: default
-data:
-  prom.sh: |
-    #!/bin/bash
-    sleep 10
-    
-    for i in {2221..2224}
-    do
-      j=$((i + 700))
-      ssh -NfR $j:localhost:$i $PROM_SERVER
-    done
-
-    export PROCESS_EXPORTER_PORT="1776"
-    ssh -NfR 8776:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
+    ssh -NfR $PROCESS_EXPORTER_PORT:localhost:$PROCESS_EXPORTER_PORT $PROM_SERVER
     shifter --image=jlabtsai/process-exporter:pgid-go -V /proc:/host_proc --entrypoint
