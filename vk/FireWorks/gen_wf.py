@@ -5,42 +5,44 @@ import time
 
 LPAD = LaunchPad.from_file('my_launchpad.yaml')
 
-def ersap_fw(nnode):
-    fw_name = f"ersap-node{nnode}"
+def ersap_wf(wf_id, nnode=1, qos="debug", walltime="00:30:00", category="ersap-node1"):
+    # if walltime is larger than 1 hour, give warning and replace it with 30 miiutes
+    if walltime > "01:00:00" and qos == "debug":
+        print("Warning: walltime is larger than 1 hour, replace it with 30 minutes")
+        walltime = "00:30:00"
+    
+    fw_name = f"ersap-node{wf_id}"
     
     vk_string = f"#!/bin/bash\n\nexport NODENAME={fw_name}\nexport KUBECONFIG=/global/homes/j/jlabtsai/run-vk/kubeconfig/mylin\n\nssh -NfL 44875:localhost:44875 mylin\n\nshifter --image=docker:jlabtsai/vk-cmd:no-vk-container -- /bin/bash -c \"cp -r /vk-cmd `pwd`\"\n\ncd `pwd`/vk-cmd\n\n./start.sh $KUBECONFIG $NODENAME"
 
     task1 = ScriptTask.from_str(vk_string)
     
     fw = Firework([task1], name=fw_name)
-    fw.spec["_category"] = "ersap-node1"
-    fw.spec["_queueadapter"] = {"job_name": fw_name, "walltime": "00:30:00",
-                                "qos": "regular", "nodes": 1}
+    fw.spec["_category"] = category
+    fw.spec["_queueadapter"] = {"job_name": fw_name, "walltime": walltime,
+                                "qos": qos, "nodes": nnode}
     # preempt has min walltime of 2 hours (can get stop after 2 hours)
     # debug_preempt has max walltime of 30 minutes (can get stop after 5 minutes)
-    return fw
-
-
-def get_wf(nnode):
-    fw = ersap_fw(nnode)
     wf = Workflow([fw], {fw: []})
-    wf.name = f"ersap-node{nnode}"
+    wf.name = fw_name
     return wf
 
-def add_wf():
+
+def add_wf(number_of_wfs=8):
 # this script is to launch the workflows based on:
 # 1. Constantly check if the latest added workflow is running
 # 2. If not, waith for 30 seconds and check again
 # 3. If yes, wait for 120 seconds and add the next workflow
 # 4. If the latest launched workflow is the last one, exit
 # 5. add the first workflow when no workflow is reserving or running
+    job_setting = {"nnode": 1, "qos": "preempt", "walltime": "02:00:00", "category": "ersap-node1"}
     while True:
         # get the list of workflows
         wfs = LPAD.get_wf_ids()
         wfs.sort()
         if len(wfs) == 0:
             print("No workflow is running or reserving, add the first workflow")
-            LPAD.add_wf(get_wf(1))
+            LPAD.add_wf(ersap_wf(wf_id=1, **job_setting))
             continue
         # get the latest workflow
         latest_wf = wfs[-1]
@@ -60,15 +62,16 @@ def add_wf():
         print("Wait for 120 seconds")
         time.sleep(120)
         # if the latest workflow is the last one, exit
-        if latest_wf == 8:
+        if latest_wf == number_of_wfs:
             print("The last workflow {wf_name} is running; exit")
-            exit()
+            return # exit the script
         # add the next workflow
         else:
             next_wf = latest_wf + 1
-            LPAD.add_wf(get_wf(next_wf))
+            LPAD.add_wf(ersap_wf(wf_id=next_wf, **job_setting))
             print(f"Add workflow {next_wf}")
             # subprocess.run(["qlaunch", "-r", "singleshot", "-f", f"{next_wf.fws[-1].fw_id}"])
 
 if __name__ == "__main__":
-    add_wf()
+    add_wf(number_of_wfs=8)
+    # LPAD.add_wf(ersap_wf(wf_id=1, nnode=2, qos="preempt", walltime="02:00:00"))
