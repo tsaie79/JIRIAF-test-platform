@@ -28,14 +28,13 @@ def ersap_wf(wf_id, nnode=1, qos="debug", walltime="00:30:00", category="ersap-n
     return wf
 
 
-def add_wf(number_of_wfs=8):
+def add_wf(number_of_wfs=8, job_setting={"nnode": 1, "qos": "regular", "walltime": "02:00:00", "category": "ersap-node1"}):
 # this script is to launch the workflows based on:
 # 1. Constantly check if the latest added workflow is running
 # 2. If not, waith for 30 seconds and check again
 # 3. If yes, wait for 120 seconds and add the next workflow
 # 4. If the latest launched workflow is the last one, exit
 # 5. add the first workflow when no workflow is reserving or running
-    job_setting = {"nnode": 1, "qos": "preempt", "walltime": "02:00:00", "category": "ersap-node1"}
     while True:
         # get the list of workflows
         wfs = LPAD.get_wf_ids()
@@ -58,9 +57,14 @@ def add_wf(number_of_wfs=8):
         # if the latest workflow is running, wait for 120 seconds and add the next workflow
         # launch the pod tha has the label name of the wf name
         print(f"Workflow {wf_name} is running; launch the pod {wf_name}")
-        os.system(f"kubectl apply -f /workspaces/JIRIAF-test-platform/vk/configmap/jobs/pod.yml -l app={wf_name}")
-        print("Wait for 120 seconds")
-        time.sleep(120)
+        # check if the pod is already running
+        if os.system(f"kubectl get pods -l app={wf_name} | grep {wf_name}"):
+            print(f"Pod {wf_name} is not running; launch the pod")
+            os.system(f"kubectl apply -f /workspaces/JIRIAF-test-platform/vk/configmap/jobs/pod.yml -l app={wf_name}")
+        else:
+            print(f"Pod {wf_name} is running; do nothing")
+        # print("Wait for 120 seconds")
+        # time.sleep(120)
         # if the latest workflow is the last one, exit
         if latest_wf == number_of_wfs:
             print("The last workflow {wf_name} is running; exit")
@@ -73,5 +77,5 @@ def add_wf(number_of_wfs=8):
             # subprocess.run(["qlaunch", "-r", "singleshot", "-f", f"{next_wf.fws[-1].fw_id}"])
 
 if __name__ == "__main__":
-    add_wf(number_of_wfs=8)
+    add_wf(number_of_wfs=8, job_setting={"nnode": 1, "qos": "regular", "walltime": "02:00:00", "category": "ersap-node1"})
     # LPAD.add_wf(ersap_wf(wf_id=1, nnode=2, qos="preempt", walltime="02:00:00"))
