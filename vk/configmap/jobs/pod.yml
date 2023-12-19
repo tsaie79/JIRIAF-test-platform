@@ -4,6 +4,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node1
+  labels:
+    app: ersap-node1
 spec:
   containers:
     - name: wf
@@ -88,6 +90,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node2
+  labels:
+    app: ersap-node2
 spec:
   containers:
     - name: wf
@@ -172,6 +176,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node3
+  labels:
+    app: ersap-node3
 spec:
   containers:
     - name: wf
@@ -256,6 +262,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node4
+  labels:
+    app: ersap-node4
 spec:
   containers:
     - name: wf
@@ -338,6 +346,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node5
+  labels:
+    app: ersap-node5
 spec:
   containers:
     - name: wf
@@ -420,6 +430,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node6
+  labels:
+    app: ersap-node6
 spec:
   containers:
     - name: wf
@@ -502,6 +514,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node7
+  labels:
+    app: ersap-node7
 spec:
   containers:
     - name: wf
@@ -584,6 +598,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: ersap-node8
+  labels:
+    app: ersap-node8
 spec:
   containers:
     - name: wf
