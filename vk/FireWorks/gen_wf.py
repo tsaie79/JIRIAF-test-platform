@@ -67,7 +67,7 @@ def add_wf(number_of_wfs=8, job_setting={"nnode": 1, "qos": "regular", "walltime
         # time.sleep(120)
         # if the latest workflow is the last one, exit
         if latest_wf == number_of_wfs:
-            print("The last workflow {wf_name} is running; exit")
+            print(f"The last workflow {wf_name} is running; exit")
             return # exit the script
         # add the next workflow
         else:
