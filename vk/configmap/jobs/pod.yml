@@ -300,7 +300,7 @@ spec:
         - name: PROM_SERVER
           value: jeng-yuantsai@72.84.73.170
         - name: SLEEP
-          value: 8"
+          value: "8"
         - name: PROM_PORT_OFFSET
           value: "300"
         - name: PROCESS_EXPORTER_PORT
