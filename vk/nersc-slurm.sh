@@ -13,7 +13,7 @@ export NODENAME="vk-nersc"
 export KUBECONFIG="/global/homes/j/jlabtsai/run-vk/kubeconfig/mylin"
 
 
-ssh -NfL 33469:localhost:33469 mylin
+ssh -NfL 44877:localhost:44877 mylin
 
 shifter --image=docker:jlabtsai/vk-cmd:no-vk-container -- /bin/bash -c "cp -r /vk-cmd `pwd`"
 
