@@ -2,7 +2,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: wf
-  namespace: default
+  namespace: test-ersap
 data:
   wf.sh: |
     #!/bin/bash
@@ -16,7 +16,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: prom
-  namespace: default
+  namespace: test-ersap
 data:
   prom.sh: |
     #!/bin/bash
