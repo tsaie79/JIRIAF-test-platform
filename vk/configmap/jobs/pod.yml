@@ -4,6 +4,7 @@ metadata:
   name: ersap-node1
   labels:
     app: ersap-node1
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
@@ -91,6 +92,7 @@ metadata:
   name: ersap-node2
   labels:
     app: ersap-node2
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
@@ -177,6 +179,7 @@ metadata:
   name: ersap-node3
   labels:
     app: ersap-node3
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
@@ -263,6 +266,7 @@ metadata:
   name: ersap-node4
   labels:
     app: ersap-node4
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
@@ -348,6 +352,7 @@ metadata:
   name: ersap-node5
   labels:
     app: ersap-node5
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
@@ -433,6 +438,7 @@ metadata:
   name: ersap-node6
   labels:
     app: ersap-node6
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
@@ -518,6 +524,7 @@ metadata:
   name: ersap-node7
   labels:
     app: ersap-node7
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
@@ -602,6 +609,7 @@ metadata:
   name: ersap-node8
   labels:
     app: ersap-node8
+  namespace: test-ersap
 spec:
   containers:
     - name: wf
