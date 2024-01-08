@@ -13,7 +13,14 @@ def ersap_wf(wf_id, nnode=1, qos="debug", walltime="00:30:00", category="ersap-n
     
     fw_name = f"ersap-node{wf_id}"
     
-    vk_string = f"#!/bin/bash\n\nexport NODENAME={fw_name}\nexport KUBECONFIG=/global/homes/j/jlabtsai/run-vk/kubeconfig/mylin\n\nssh -NfL 44875:localhost:44875 mylin\n\nshifter --image=docker:jlabtsai/vk-cmd:no-vk-container -- /bin/bash -c \"cp -r /vk-cmd `pwd`\"\n\ncd `pwd`/vk-cmd\n\n./start.sh $KUBECONFIG $NODENAME"
+    vk_string = ("#!/bin/bash\n\n"
+                "export NODENAME=" + fw_name + "\n"
+                "export KUBECONFIG=/global/homes/j/jlabtsai/run-vk/kubeconfig/mylin\n\n"
+                "ssh -NfL 46859:localhost:46859 mylin\n\n"
+                "shifter --image=docker:jlabtsai/vk-cmd:no-vk-container -- /bin/bash -c \"cp -r /vk-cmd `pwd`\"\n\n"
+                "cd `pwd`/vk-cmd\n\n"
+                "./start.sh $KUBECONFIG $NODENAME")
+
 
     task1 = ScriptTask.from_str(vk_string)
     
@@ -77,5 +84,5 @@ def add_wf(number_of_wfs=8, job_setting={"nnode": 1, "qos": "regular", "walltime
             # subprocess.run(["qlaunch", "-r", "singleshot", "-f", f"{next_wf.fws[-1].fw_id}"])
 
 if __name__ == "__main__":
-    add_wf(number_of_wfs=8, job_setting={"nnode": 1, "qos": "regular", "walltime": "02:00:00", "category": "ersap-node1"})
+    add_wf(number_of_wfs=1, job_setting={"nnode": 1, "qos": "debug", "walltime": "00:30:00", "category": "ersap-node1"})
     # LPAD.add_wf(ersap_wf(wf_id=1, nnode=2, qos="preempt", walltime="02:00:00"))
