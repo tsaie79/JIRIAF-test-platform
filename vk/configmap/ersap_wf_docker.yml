@@ -16,7 +16,7 @@ data:
 
 
     ## find the pgid of the process in the container with "UseNUMA" in its command
-    sleep $wait_time_for_ersap
+    sleep $wait_time_write_pgid
     export PGID=$(docker top $CONTAINER_ID -eo pid,cmd | grep UseNUMA | awk '{print $1}' | xargs ps -o pgid= -p)
     echo $PGID > $3
 
@@ -71,7 +71,7 @@ spec:
       command: ["bash"]
       args: ["129.57.177.135", "129.57.177.7", "~/ersap-test/containers/c1/z"]
       env:
-        - name: wait_time_for_ersap
+        - name: wait_time_write_pgid
           value: "10"
         - name: wall_time
           value: "300"
