@@ -16,11 +16,11 @@ data:
 
 
     ## find the pgid of the process in the container with "UseNUMA" in its command
-    sleep $5
+    sleep $wait_time_for_ersap
     export PGID=$(docker top $CONTAINER_ID -eo pid,cmd | grep UseNUMA | awk '{print $1}' | xargs ps -o pgid= -p)
     echo $PGID > $3
 
-    sleep $4
+    sleep $wall_time
 
     # run the "/ersap/kill-ersap" cmd in the container
     docker exec $CONTAINER_ID sh /ersap/kill-ersap
@@ -33,7 +33,7 @@ metadata:
 data:
   stress.sh: |
     #!/bin/bash
-    sleep $3
+    sleep $wait_time_cp_pgid
     cp $1 $2
 ---
 kind: ConfigMap
@@ -69,7 +69,12 @@ spec:
     - name: c1
       image: wf
       command: ["bash"]
-      args: ["129.57.177.135", "129.57.177.7", "~/ersap-test/containers/c1/z", "300", "10"]
+      args: ["129.57.177.135", "129.57.177.7", "~/ersap-test/containers/c1/z"]
+      env:
+        - name: wait_time_for_ersap
+          value: "10"
+        - name: wall_time
+          value: "300"
       volumeMounts:
         - name: wf
           mountPath: wf
@@ -80,7 +85,10 @@ spec:
     - name: c2
       image: get-pgid
       command: ["bash"]
-      args: ["~/ersap-test/containers/c1/z", "~/ersap-test/containers/c1/pgid", "15"] # Time and cpu should go here
+      args: ["~/ersap-test/containers/c1/z", "~/ersap-test/containers/c1/pgid"] # Time and cpu should go here
+      env:
+        - name: wait_time_cp_pgid
+          value: "10"
       volumeMounts:
         - name: get-pgid
           mountPath: get-pgid
