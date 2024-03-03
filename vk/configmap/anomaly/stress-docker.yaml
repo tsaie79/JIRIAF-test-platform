@@ -1,0 +1,104 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: docker-stress
+data:
+  stress.sh: |
+    #!/bin/bash
+    docker run -d --rm -e NUMBER=$cpus -e TIME=$wall_time jlabtsai/stress:latest > /dev/null
+
+    ## find the last container id
+    export CONTAINER_ID=$(docker ps -l -q)
+
+    ### get the pid of the container as pgid
+    docker inspect -f '{{.State.Pid}}' $CONTAINER_ID > $1
+
+    ## store containerid for killing the container
+    echo $CONTAINER_ID > $cont_id_file
+
+    ## keep container alive for the wall_time
+    sleep $wall_time
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: stress # Job Name Here
+spec:
+  containers:
+    - name: c1
+      image: docker-stress
+      command: ["bash"]
+      args: ["~/default/stress/containers/c1/z"] # Time and cpu should go here
+      env:
+        - name: wall_time
+          value: "240"
+        - name: cpus
+          value: "60"
+        - name: cont_id_file
+          value: "~/default/stress/containers/c1/cont_id"
+      volumeMounts:
+        - name: docker-stress
+          mountPath: docker-stress        
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: "1" # Number of CPUs Here as well
+          memory: 1Gi # Memory Here 
+    - name: c2
+      image: get-pgid
+      command: ["bash"]
+      args: ["~/default/stress/containers/c1/z", "~/default/stress/containers/c1/pgid"] # Time and cpu should go here
+      env:
+        - name: wait_time_cp_pgid
+          value: "3"
+      volumeMounts:
+        - name: get-pgid
+          mountPath: get-pgid
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: "1" # Number of CPUs Here as well
+          memory: 1Gi # Memory Here 
+    - name: c3
+      image: prom
+      command: ["bash"]
+      args: ["12345", "~/default/stress/containers/c1/pgid"] # Time and cpu should go here
+      env:
+        - name: wall_time
+          value: "120"
+        - name: cont_id_file
+          value: "~/default/stress/containers/c3/cont_id"
+      volumeMounts:
+        - name: prom
+          mountPath: prom
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: "1" # Number of CPUs Here as well
+          memory: 1Gi # Memory Here 
+          
+  volumes:
+    - name: docker-stress
+      configMap:
+        name: docker-stress
+    - name: get-pgid
+      configMap:
+        name: get-pgid
+    - name: prom
+      configMap:
+        name: prom
+  nodeSelector:
+    kubernetes.io/role: agent
+    kubernetes.io/hostname: vk-ejfat
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+  restartPolicy: Never
