@@ -11,22 +11,27 @@ data:
 
     ## look for all cont_id_files in the directory $POD_DIR/containers/
     export CONTAINER_ID=$(cat $POD_DIR/containers/*/cont_id)
+    echo "container id: $CONTAINER_ID"
 
     ## look for all pgid files in the directory $POD_DIR/containers/
-    export PGID_FILE=$(ls $POD_DIR/containers/*/pgid)
+    export PGID_FILES=$(ls $POD_DIR/containers/*/orig_pgid)
+    echo "pgid file: $PGID_FILES"
 
     # kill the container by docker stop if container is still running
-    ## find running containers
-    export RUNNING_CONTAINERS=$(docker ps -q)
-    ## kill the container if it is running
-    if [[ $RUNNING_CONTAINERS == *$CONTAINER_ID* ]]; then
-      docker stop $CONTAINER_ID
-    fi
+    for CONTAINER_ID in $CONTAINER_ID
+    do
+      ## if container is still running, kill it
+      if [ "$(docker inspect -f {{.State.Running}} $CONTAINER_ID)" == "true" ]; then
+        echo "killing the container with id: $CONTAINER_ID"
+        docker stop $CONTAINER_ID
+      fi
+    done
 
     # kill the processes by pgid
     for PGID_FILE in $PGID_FILES
     do
       export PGID=$(cat $PGID_FILE)
+      echo "killing the processes with pgid: $PGID"
       pkill -g $PGID
     done
 
