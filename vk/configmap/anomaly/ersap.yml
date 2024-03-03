@@ -1,0 +1,152 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: wf
+data:
+  wf.sh: |
+    #!/bin/bash
+    export LB_HOST=$1
+    export PR_HOST=$2
+    docker run -d --rm --name wf-$ns --cpus=$cpus --net=host -e "LB_HOST=$LB_HOST" -e "PR_HOST=$PR_HOST" --entrypoint /ersap/run-pipeline-node.sh gurjyan/ersap:v0.1
+    
+    ## find the last container id
+    export CONTAINER_ID=$(docker ps -l -q)
+    # docker inspect -f '{{.State.Pid}}' $CONTAINER_ID > $3
+
+
+    ## find the pgid of the process in the container with "UseNUMA" in its command
+    sleep $wait_time_write_pgid
+    export PGID=$(docker top $CONTAINER_ID -eo pid,cmd | grep UseNUMA | awk '{print $1}' | xargs ps -o pgid= -p)
+    echo $PGID > $3
+
+    sleep $wall_time
+
+    # run the "/ersap/kill-ersap" cmd in the container
+    docker exec $CONTAINER_ID sh /ersap/kill-ersap
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: get-pgid
+data:
+  stress.sh: |
+    #!/bin/bash
+    sleep $wait_time_cp_pgid
+    cp $1 $2
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prom
+data:
+  prom.sh: |
+    #!/bin/bash
+    sleep 10
+    export PROCESS_EXPORTER_PORT=$1
+    export PGID_FILE=$2
+    docker run -d --rm --net=host -e PROCESS_EXPORTER_PORT=$PROCESS_EXPORTER_PORT -e PGID_FILE=$PGID_FILE -v /proc:/host_proc -v $PGID_FILE:$PGID_FILE jlabtsai/process-exporter:pgid-go --entrypoint
+   
+    ## find the last container id
+    export CONTAINER_ID=$(docker ps -l -q)
+    
+    ## store contianerid for killing the container
+    echo $CONTAINER_ID > $cont_id_file
+
+    ## kill the container by docker stop
+    sleep $wall_time
+    docker stop $CONTAINER_ID
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ersap
+spec:
+  containers:
+    - name: c1
+      image: wf
+      command: ["bash"]
+      args: ["129.57.177.135", "129.57.177.7", "~/default/ersap/containers/c1/z"]
+      env:
+        - name: wait_time_write_pgid
+          value: "10"
+        - name: wall_time
+          value: "600"
+        - name: ns
+          value: "1"
+        - name: cpus
+          value: "128"
+        - name: cont_id_file
+          value: "~/default/ersap/containers/c1/cont_id"
+      volumeMounts:
+        - name: wf
+          mountPath: wf
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+    - name: c2
+      image: get-pgid
+      command: ["bash"]
+      args: ["~/default/ersap/containers/c1/z", "~/default/ersap/containers/c1/pgid"] # Time and cpu should go here
+      env:
+        - name: wait_time_cp_pgid
+          value: "12"
+      volumeMounts:
+        - name: get-pgid
+          mountPath: get-pgid
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: "1" # Number of CPUs Here as well
+          memory: 1Gi # Memory Here 
+    - name: c3
+      image: prom
+      command: ["bash"]
+      args: ["1776", "~/default/ersap/containers/c1/pgid"] # Time and cpu should go here
+      env:
+        - name: wall_time
+          value: "600"
+        - name: cont_id_file
+          value: "~/default/ersap/containers/c3/cont_id"
+      volumeMounts:
+        - name: prom
+          mountPath: prom
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: "1" # Number of CPUs Here as well
+          memory: 1Gi # Memory Here 
+
+
+  volumes:
+    - name: wf
+      configMap:
+        name: wf
+    - name: get-pgid
+      configMap:
+        name: get-pgid
+    - name: prom
+      configMap:
+        name: prom
+
+        
+  nodeSelector:
+    kubernetes.io/role: agent
+    kubernetes.io/hostname: vk-ejfat
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+
+
+---
