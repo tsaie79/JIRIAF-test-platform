@@ -51,9 +51,8 @@ data:
    
     ## find the last container id
     export CONTAINER_ID=$(docker ps -l -q)
-    docker inspect -f '{{.State.Pid}}' $CONTAINER_ID > $3
 
-    sleep $3
+    sleep $wall_time
 
     # kill the container by docker stop
     docker stop $CONTAINER_ID
@@ -63,18 +62,18 @@ data:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: ersap-test
+  name: ersap-1
 spec:
   containers:
     - name: c1
       image: wf
       command: ["bash"]
-      args: ["129.57.177.135", "129.57.177.7", "~/ersap-test/containers/c1/z"]
+      args: ["129.57.177.135", "129.57.177.7", "~/ersap-1/containers/c1/z"]
       env:
         - name: wait_time_write_pgid
           value: "10"
         - name: wall_time
-          value: "300"
+          value: "600"
       volumeMounts:
         - name: wf
           mountPath: wf
@@ -85,10 +84,10 @@ spec:
     - name: c2
       image: get-pgid
       command: ["bash"]
-      args: ["~/ersap-test/containers/c1/z", "~/ersap-test/containers/c1/pgid"] # Time and cpu should go here
+      args: ["~/ersap-1/containers/c1/z", "~/ersap-1/containers/c1/pgid"] # Time and cpu should go here
       env:
         - name: wait_time_cp_pgid
-          value: "10"
+          value: "12"
       volumeMounts:
         - name: get-pgid
           mountPath: get-pgid
@@ -102,7 +101,10 @@ spec:
     - name: c3
       image: prom
       command: ["bash"]
-      args: ["12345", "~/ersap-test/containers/c1/pgid", "300"] # Time and cpu should go here
+      args: ["1776", "~/ersap-1/containers/c1/pgid"] # Time and cpu should go here
+      env:
+        - name: wall_time
+          value: "600"
       volumeMounts:
         - name: prom
           mountPath: prom
