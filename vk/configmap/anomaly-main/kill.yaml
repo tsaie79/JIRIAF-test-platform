@@ -7,13 +7,28 @@ data:
     #!/bin/bash
 
     # get contianer id from the file cont_id_file
-    export POD_DIR=$1
+    export POD_DIR=~/$ns/$pod_name
 
     ## look for all cont_id_files in the directory $POD_DIR/containers/
     export CONTAINER_ID=$(cat $POD_DIR/containers/*/cont_id)
 
-    # kill the container by docker stop
-    docker stop $CONTAINER_ID
+    ## look for all pgid files in the directory $POD_DIR/containers/
+    export PGID_FILE=$(ls $POD_DIR/containers/*/pgid)
+
+    # kill the container by docker stop if container is still running
+    ## find running containers
+    export RUNNING_CONTAINERS=$(docker ps -q)
+    ## kill the container if it is running
+    if [[ $RUNNING_CONTAINERS == *$CONTAINER_ID* ]]; then
+      docker stop $CONTAINER_ID
+    fi
+
+    # kill the processes by pgid
+    for PGID_FILE in $PGID_FILES
+    do
+      export PGID=$(cat $PGID_FILE)
+      pkill -g $PGID
+    done
 
 ---
 
@@ -26,7 +41,12 @@ spec:
     - name: c1
       image: docker-stop
       command: ["bash"]
-      args: ["~/default/stress"] # Time and cpu should go here
+      args: [""] # Time and cpu should go here
+      env:
+        - name: ns
+          value: "default"
+        - name: pod_name
+          value: "ersap"
       volumeMounts:
         - name: docker-stop
           mountPath: docker-stop        
