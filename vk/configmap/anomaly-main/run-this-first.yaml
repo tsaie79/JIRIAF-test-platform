@@ -6,7 +6,10 @@ metadata:
 data:
   stress.sh: |
     #!/bin/bash
+    ## copy the orig pgid file to the new location
+
     sleep $wait_time_cp_pgid
+    cp "$2" "${2%/*}/orig_pgid"
     cp $1 $2
 
 ---
@@ -28,6 +31,9 @@ data:
     
     ## store contianerid for killing the container
     echo $CONTAINER_ID > $cont_id_file
+
+    ## copy the orig pgid file to the new location
+    cp "${cont_id_file%/*}/pgid" "${cont_id_file%/*}/orig_pgid"
 
     ## kill the container by docker stop
     sleep $wall_time
