@@ -1,0 +1,51 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: docker-stop
+data:
+  docker-stop.sh: |
+    #!/bin/bash
+
+    # get contianer id from the file cont_id_file
+    export POD_DIR=$1
+
+    ## look for all cont_id_files in the directory $POD_DIR/containers/
+    export CONTAINER_ID=$(cat $POD_DIR/containers/*/cont_id)
+
+    # kill the container by docker stop
+    docker stop $CONTAINER_ID
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kill # Job Name Here
+spec:
+  containers:
+    - name: c1
+      image: docker-stop
+      command: ["bash"]
+      args: ["~/default/stress"] # Time and cpu should go here
+      volumeMounts:
+        - name: docker-stop
+          mountPath: docker-stop        
+      resources:
+        limits:
+          cpu: "1"
+          memory: 1Gi
+        requests:
+          cpu: "1" # Number of CPUs Here as well
+          memory: 1Gi # Memory Here 
+  volumes:
+    - name: docker-stop
+      configMap:
+        name: docker-stop
+  nodeSelector:
+    kubernetes.io/role: agent
+    kubernetes.io/hostname: vk-ejfat
+  tolerations:
+    - key: "virtual-kubelet.io/provider"
+      value: "mock"
+      effect: "NoSchedule"
+  restartPolicy: Never
