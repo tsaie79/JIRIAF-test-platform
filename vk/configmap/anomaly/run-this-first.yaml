@@ -1,0 +1,34 @@
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: get-pgid
+data:
+  stress.sh: |
+    #!/bin/bash
+    sleep $wait_time_cp_pgid
+    cp $1 $2
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: prom
+data:
+  prom.sh: |
+    #!/bin/bash
+    sleep 10
+    export PROCESS_EXPORTER_PORT=$1
+    export PGID_FILE=$2
+    docker run -d --rm --net=host -e PROCESS_EXPORTER_PORT=$PROCESS_EXPORTER_PORT -e PGID_FILE=$PGID_FILE -v /proc:/host_proc -v $PGID_FILE:$PGID_FILE jlabtsai/process-exporter:pgid-go --entrypoint
+   
+    ## find the last container id
+    export CONTAINER_ID=$(docker ps -l -q)
+    
+    ## store contianerid for killing the container
+    echo $CONTAINER_ID > $cont_id_file
+
+    ## kill the container by docker stop
+    sleep $wall_time
+    docker stop $CONTAINER_ID
