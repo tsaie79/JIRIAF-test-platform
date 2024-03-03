@@ -7,7 +7,7 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'vk'
+  - job_name: 'vk-ejfat'
     scheme: https
     static_configs:
       - targets: ['localhost:10250']
@@ -15,6 +15,15 @@ scrape_configs:
     tls_config:
       insecure_skip_verify: true
 
-  - job_name: 'process-exporter'
+  - job_name: 'ersap-process-exporter'
     static_configs:
-      - targets: ['localhost:12345']
+      - targets: ['localhost:1776']
+
+  - job_name: 'ersap'
+    static_configs:
+    - targets: ['localhost:2221']
+
+  - job_name: 'stress'
+    static_configs:
+    - targets: ['localhost:12345']
+
