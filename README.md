@@ -8,6 +8,7 @@ This main purpose of this project is to test JIRIAF by using [vk-cmd](https://gi
 | main                             | custom-config   | main               |
 | test-ersap-wf                    | custom-config   | main               |
 | test-ersap-wf-horizontal-scaling | no-vk-container | pgid               |
+| test-ejfat | main | pgid               |
 
 
 
@@ -17,4 +18,4 @@ This main purpose of this project is to test JIRIAF by using [vk-cmd](https://gi
 | :------------------------------- | :--------------- | :---------------------- |
 | main                             | vk-cmd:v20231113 | process-exporter:v1.0.0 |
 | test-ersap-wf                    | vk-cmd:v20231113 | process-exporter:v1.0.0 |
-| test-ersap-wf-horizontal-scaling | no-vk-container  | pgid-go                 |
+| test-ejfat | main | pgid-go               |
